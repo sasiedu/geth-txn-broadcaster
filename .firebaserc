@@ -1,0 +1,5 @@
+{
+  "projects": {
+    "default": "geth-transaction-broadcaster"
+  }
+}
