@@ -51,6 +51,26 @@
   <p id="status"></p>
 
   <div id="result"></div>
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyB5X6GppwK13xiDemMyh6M5jSRvvUFsGno",
+    authDomain: "geth-transaction-broadcaster.firebaseapp.com",
+    projectId: "geth-transaction-broadcaster",
+    storageBucket: "geth-transaction-broadcaster.appspot.com",
+    messagingSenderId: "564612683640",
+    appId: "1:564612683640:web:12b6b81d03418e7b5c5a8d"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
 
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
