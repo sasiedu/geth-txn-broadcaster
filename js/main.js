@@ -1,4 +1,30 @@
-const EthereumTx = require('ethereumjs-tx').Transaction;
+const EthereumTx = require('@ethereumjs/tx').Transaction;
+const Common = require('@ethereumjs/common');
+const web3Utils = require('web3-utils');
+
+function toEthereumTx(tx, sig = {}, customChainParams) {
+
+    //apply signature
+    tx = {
+        ...tx,
+        ...sig
+    };
+
+    let options;
+    if( customChainParams ) {
+        options = { common: Common.Common.custom(customChainParams) }
+    } else {
+        options = { common: new Common.Common({ chain: tx.chainId }) }
+    }
+
+    return new EthereumTx({
+        ...tx,
+        ...sig,
+        gasPrice: web3Utils.toHex(tx.gasPrice),
+        gasLimit: web3Utils.toHex(String(tx.gasLimit)),
+        value: web3Utils.toHex(tx.value)
+    }, options).serialize().toString("hex");
+}
 
 document.getElementById("generateHex").disabled = true;
 document.getElementById("broadcastTx").disabled = true;
@@ -22,25 +48,7 @@ document.getElementById("generateHex").addEventListener("click", function () {
     return alert("Json Tx is empty");
   }
 
-  // check all fields have hex values
-  function getHexValue(value) {
-    if (typeof value !== "string") {
-      value = value.toString();
-    }
-
-    if (value.startsWith("0x")) {
-      return value;
-    }
-
-    return "0x" + parseInt(value, 16).toString(16);
-  }
-
-  let key;
-  for (key in jsonTx) {
-    jsonTx[key] = getHexValue(jsonTx[key]);
-  }
-
-  document.getElementById("transactionHex").value = "0x" + new EthereumTx(jsonTx, {chain: 1}).serialize().toString("hex");
+  document.getElementById("transactionHex").value = "0x" + toEthereumTx(jsonTx);
   document.getElementById("broadcastTx").disabled = false;
 });
 
